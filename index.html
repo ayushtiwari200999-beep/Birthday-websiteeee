@@ -1,0 +1,447 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Happyyyyy Birthdayyyy Anokhiiii</title>
+
+<style>
+
+/* -------- BODY -------- */
+body{
+margin:0;
+font-family:Segoe UI;
+background:linear-gradient(135deg,#1a0000,#4b0000,#000);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+/* -------- FIREWORKS -------- */
+#fireworks{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:0;
+pointer-events:none;
+}
+
+/* -------- PAGES -------- */
+.page{
+display:none;
+padding:40px;
+min-height:100vh;
+position:relative;
+z-index:2;
+}
+.active{display:block}
+
+/* -------- TITLE -------- */
+.title{
+  font-size:120px;  /* bigger title */
+  color:gold;
+  margin-top:90px;
+  text-shadow:0 0 30px gold;
+}
+
+/* -------- BALLOONS -------- */
+.balloon{
+position:fixed;
+bottom:-100px;
+font-size:40px;
+animation:rise 10s linear infinite;
+}
+@keyframes rise{
+0%{transform:translateY(0)}
+100%{transform:translateY(-120vh)}
+}
+
+/* -------- FLOATING HEARTS -------- */
+.heartbg span{
+position:fixed;
+bottom:-50px;
+color:#ff4d6d;
+font-size:25px;
+animation:heartRise 12s linear infinite;
+}
+@keyframes heartRise{
+0%{transform:translateY(0);opacity:0}
+50%{opacity:1}
+100%{transform:translateY(-120vh);opacity:0}
+}
+
+/* -------- BUTTONS -------- */
+button{
+  padding:20px 40px;  /* bigger button area */
+  font-size:24px;     /* bigger text */
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  margin:10px;
+}
+.yes{background:gold;color:black}
+.no{background:#990000;color:white}
+.back{background:white;color:black}
+
+/* -------- GIFT GRID -------- */
+.gifts{
+display:grid;
+grid-template-columns:repeat(2,200px);
+gap:40px;
+justify-content:center;
+margin-top:60px;
+}
+.gift{
+width:200px;
+height:200px;
+background:#6b0000;
+border:3px solid gold;
+border-radius:15px;
+font-size:60px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+transition:.3s;
+}
+.gift:hover{
+transform:scale(1.08);
+box-shadow:0 0 20px gold;
+}
+
+/* -------- TREE COLLAGE -------- */
+.tree{
+position: relative;
+width:450px;
+height:600px;
+margin:auto;
+background: url('tree-trunk.png') no-repeat center bottom; /* optional tree trunk */
+background-size: 80% auto;
+}
+
+.tree img{
+position:absolute;
+width:150px; /* bigger photos */
+height:160px;
+border-radius:12px;
+object-fit:cover;
+border:3px solid gold;
+transform-origin: top center;
+animation: swing 2s ease-in-out infinite alternate;
+}
+
+/* Swing animation for hanging effect */
+@keyframes swing {
+from{ transform: rotate(-10deg); }
+to{ transform: rotate(10deg); }
+}
+
+/* TREE POSITIONS */
+.l1 { top:30px; left:135px; animation-delay:0s; }
+.l2 { top:90px; left:50px; animation-delay:0.2s; }
+.l3 { top:90px; right:50px; animation-delay:0.4s; }
+.l4 { top:170px; left:20px; animation-delay:0.6s; }
+.l5 { top:170px; right:20px; animation-delay:0.8s; }
+.l6 { top:280px; left:90px; animation-delay:1s; }
+.l7 { top:280px; right:90px; animation-delay:1.2s; }
+
+/* -------- MESSAGE BOX -------- */
+.message{
+max-width:850px;
+margin:auto;
+background:rgba(0,0,0,.4);
+padding:35px;
+border-radius:15px;
+border:2px solid gold;
+line-height:1.8;
+font-size:34px; /* doubled text size */
+}
+
+/* -------- PHOTO PAGES -------- */
+.photo img{
+width:400px;
+border-radius:15px;
+border:3px solid gold;
+}
+.quality{
+font-size:36px; /* bigger, bolder photo title */
+font-weight:bold;
+color:gold;
+margin-bottom:20px;
+text-shadow: 0 0 10px #990000;
+}
+
+/* -------- PANDA SCENE -------- */
+.pandaScene{
+margin-top:40px;
+}
+.panda{
+font-size:120px;
+position:relative;
+animation:walk 3s forwards;
+}
+@keyframes walk{
+0%{left:-200px}
+100%{left:0}
+}
+.pandaGifts{
+font-size:70px;
+margin-top:20px;
+animation:float 2s infinite alternate;
+}
+@keyframes float{
+from{transform:translateY(0)}
+to{transform:translateY(-15px)}
+}
+
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<div class="heartbg" id="heartbg"></div>
+
+<div class="balloon" style="left:10%">🎈</div>
+<div class="balloon" style="left:30%">🎈</div>
+<div class="balloon" style="left:50%">🎈</div>
+<div class="balloon" style="left:70%">🎈</div>
+<div class="balloon" style="left:90%">🎈</div>
+
+<!-- HOME -->
+<div class="page active" id="home">
+<h1 class="title" id="typing"></h1>
+<p>Please accept this gift</p>
+<button class="yes" onclick="show('gifts')">YES</button>
+<button class="no" onclick="convince()">NO</button>
+</div>
+
+<!-- GIFTS -->
+<div class="page" id="gifts">
+<h1 class="title">Choose Your Gift 🎁</h1>
+<div class="gifts">
+<div class="gift" onclick="show('box1')">🎁</div>
+<div class="gift" onclick="show('box2')">🎁</div>
+<div class="gift" onclick="show('p1')">🎁</div>
+<div class="gift" onclick="show('panda')">🎁</div>
+</div>
+<br>
+<button class="back" onclick="show('home')">Back</button>
+</div>
+
+<!-- TREE COLLAGE -->
+<div class="page" id="box1">
+  <h1 class="title">Anokhiii being anokhiii</h1>
+
+  <div class="tree">
+    <img src="1.jpg" class="t1">
+    <img src="2.jpg" class="t2">
+    <img src="3.jpg" class="t3">
+    <img src="4.jpg" class="t4">
+    <img src="5.jpg" class="t5">
+    <img src="6.jpg" class="t6">
+    <img src="7.jpg" class="t7">
+  </div>
+
+  <br>
+  <button class="back" onclick="show('gifts')">Back</button>
+</div>
+
+<style>
+.tree {
+  position: relative;
+  width: 400px;
+  height: 500px; /* taller for spacing */
+  margin: auto;
+  margin-top: 40px;
+  background: url('tree.png') no-repeat center bottom; /* optional tree image */
+  background-size: contain;
+}
+
+/* hanging animation */
+.tree img {
+  position: absolute;
+  width: 150px;  /* larger images */
+  height: 130px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 3px solid gold;
+  animation: swing 2s ease-in-out infinite alternate;
+}
+
+/* swing effect for hanging photos */
+@keyframes swing {
+  0% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  100% { transform: rotate(-5deg); }
+}
+
+/* positions for photos on tree */
+.t1 { top: 30px; left: 140px; animation-delay: 0s; }
+.t2 { top: 120px; left: 40px; animation-delay: 0.2s; }
+.t3 { top: 120px; right: 40px; animation-delay: 0.4s; }
+.t4 { top: 220px; left: 20px; animation-delay: 0.6s; }
+.t5 { top: 220px; right: 20px; animation-delay: 0.8s; }
+.t6 { top: 350px; left: 90px; animation-delay: 1s; }
+.t7 { top: 350px; right: 90px; animation-delay: 1.2s; }
+</style>
+
+<!-- FULL MESSAGE -->
+<div class="page" id="box2">
+<h1 class="title">For Anokhii</h1>
+<div class="message">
+ANOKHII
+
+Anokhiii, a simple girl with an intelligent mind, a kind heart, and a sweet personality.  
+A girl who does any work embraces the work itself. She is highly versatile and multitasking, enjoying many things and doing them all perfectly — academically strong, talented in sports, sketching like an artist, loving to dance, and styling like a star.
+
+She is academically sharp, logically intelligent, and practically smart — overall perfection. Not only is God proud of His creation, but people are proud of God for creating her. People think they can copy her, but they can’t; even God isn’t able to create someone similar.
+
+She is God’s most unique, nicest, and most perfect creation; to some, she is even a goddess.
+
+Her presence feels like heaven, friendship with her seems like an achievement, her words cannot be unheard, and her look cannot be unseen.
+
+A girl who doesn't need compliment — she is the compliment itself.
+
+A girl who is not compared by beautiful things; beautiful things are compared by her.
+
+A girl who is not only sweet, pretty, kind but smart, strong, independent.
+
+She overwhelms with quality and a vibe nobody can match.
+
+She enhances her surroundings and makes everything better.
+
+She is none other than the goddess of kindness —  
+**Anokhi Choudhary ji.**
+
+✨ Happy Birthday ✨
+</div>
+<br>
+<button class="back" onclick="show('gifts')">Back</button>
+</div>
+
+<!-- PHOTO SLIDES -->
+<div class="page" id="p1"><div class="photo">
+<div class="quality">Prettyyy Anokhiiii</div>
+<img src="a1.jpg"><br>
+<button onclick="show('p2')">Next</button>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+<div class="page" id="p2"><div class="photo">
+<div class="quality">Spiderrrr Mannn</div>
+<img src="a2.jpg"><br>
+<button onclick="show('p3')">Next</button>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+<div class="page" id="p3"><div class="photo">
+<div class="quality">Travel pagluu Anokhiii</div>
+<img src="a3.jpg"><br>
+<button onclick="show('p4')">Next</button>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+<div class="page" id="p4"><div class="photo">
+<div class="quality">khartarnak Fighter</div>
+<img src="a4.jpg"><br>
+<button onclick="show('p5')">Next</button>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+<div class="page" id="p5"><div class="photo">
+<div class="quality">Traditional Beautyyy</div>
+<img src="a5.jpg"><br>
+<button onclick="show('p6')">Next</button>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+<div class="page" id="p6"><div class="photo">
+<div class="quality">Prettty Certified Yapper</div>
+<img src="a6.jpg"><br>
+<button onclick="show('p7')">Next</button>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+<div class="page" id="p7"><div class="photo">
+<div class="quality">shakshat devii </div>
+<img src="a7.jpg"><br>
+<button class="back" onclick="show('gifts')">Back</button>
+</div></div>
+
+<!-- PANDA -->
+<div class="page" id="panda">
+<h1 class="title">A Gift For You</h1>
+<div class="pandaScene">
+<div class="panda">🐼</div>
+<div class="pandaGifts">🌸 🍫 🎂</div>
+</div>
+<h2>The panda came to give you gifts!</h2>
+<button class="back" onclick="show('gifts')">Back</button>
+</div>
+
+<script>
+function show(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+function convince(){
+alert("Please click YES… it was made specially for you ❤️");
+}
+
+/* typing */
+let text="Happppeeeiiii Birthdayyy Anokhiii 🎂";
+let i=0;
+function typing(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,80);
+}}
+typing();
+
+/* hearts */
+let heartbg=document.getElementById("heartbg");
+for(let i=0;i<25;i++){
+let h=document.createElement("span");
+h.innerHTML="❤";
+h.style.left=Math.random()*100+"%";
+h.style.fontSize=(15+Math.random()*25)+"px";
+h.style.animationDuration=(6+Math.random()*6)+"s";
+heartbg.appendChild(h);
+}
+
+/* fireworks */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+function createFirework(){
+let x=Math.random()*canvas.width;
+let y=Math.random()*canvas.height/2;
+for(let i=0;i<80;i++){
+particles.push({
+x:x,
+y:y,
+speedX:(Math.random()-0.5)*6,
+speedY:(Math.random()-0.5)*6,
+life:60
+});
+}}
+function animateFireworks(){
+ctx.fillStyle="rgba(0,0,0,0.2)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+particles.forEach((p,i)=>{
+ctx.fillStyle="gold";
+ctx.beginPath();
+ctx.arc(p.x,p.y,3,0,Math.PI*2);
+ctx.fill();
+p.x+=p.speedX;
+p.y+=p.speedY;
+p.life--;
+if(p.life<=0)particles.splice(i,1);
+});
+requestAnimationFrame(animateFireworks);
+}
+setInterval(createFirework,1200);
+animateFireworks();
+</script>
+
+</body>
+</html>
